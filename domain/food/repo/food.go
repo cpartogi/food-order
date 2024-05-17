@@ -67,7 +67,7 @@ func (r *FoodRepo) AddOrders(ctx context.Context, tableNumber int, req []model.A
 	orderId = uuid.New().String()
 	orderNumber := helper.GenerateRandomString(10)
 	strOrderItemIds := strings.Join(orderItemIds, ",")
-	queryInserOrder := `Insert into orders (id, order_number, table_number, order_item_ids, created_by, crated_at) values ('` + orderId + `', '` + orderNumber + `', ` + strconv.Itoa(tableNumber) + `,'` + strOrderItemIds + `', 'cashier', now() )`
+	queryInserOrder := `Insert into orders (id, order_number, table_number, order_item_ids, created_by, created_at) values ('` + orderId + `', '` + orderNumber + `', ` + strconv.Itoa(tableNumber) + `,'` + strOrderItemIds + `', 'cashier', now() )`
 
 	_, err = r.db.ExecContext(ctx, queryInserOrder)
 

@@ -6,5 +6,5 @@ type OrderData struct {
 }
 
 type AddOrder struct {
-	OrderDatas []OrderData
+	OrderDatas []OrderData `json:"orders"`
 }

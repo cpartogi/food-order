@@ -16,4 +16,5 @@ func NewFoodHander(e *echo.Echo, us food.FoodUsecaseInterface) {
 	}
 
 	e.GET("/food/menus", handler.GetMenus)
+	e.POST("/food/order/:table_no", handler.AddOrder)
 }

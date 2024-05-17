@@ -13,7 +13,7 @@ import (
 func (h *FoodHandler) AddOrder(c echo.Context) error {
 	ctx := c.Request().Context()
 
-	tableNo := c.Param("tableNo")
+	tableNo := c.Param("table_no")
 	var req request.AddOrder
 	c.Bind(&req)
 
