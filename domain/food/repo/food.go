@@ -5,6 +5,9 @@ import (
 	"database/sql"
 	"food-order/domain/food"
 	"food-order/domain/food/model"
+	"food-order/lib/helper"
+	"strconv"
+	"strings"
 
 	"github.com/google/uuid"
 )
@@ -47,15 +50,29 @@ func (r *FoodRepo) GetMenus(ctx context.Context) (res []model.Menus, err error) 
 
 func (r *FoodRepo) AddOrders(ctx context.Context, tableNumber int, req []model.AddOrders) (orderId string, err error) {
 
+	var orderItemIds []string
 	for _, ord := range req {
 		orderItemId := uuid.New().String()
-		query := `INSERT into order_items (id, menu_id, amount, created_by, created_at) values ('` + orderItemId + `' ,'` + ord.MenuId + `', ` + ord.Amount + ` ,'cashier', now())`
+		query := `INSERT into order_items (id, menu_id, amount, created_by, created_at) values ('` + orderItemId + `' ,'` + ord.MenuId + `', ` + strconv.Itoa(ord.Amount) + ` ,'cashier', now())`
 
 		_, err := r.db.ExecContext(ctx, query)
 
 		if err != nil {
 			return "", err
 		}
+		orderItemIds = append(orderItemIds, orderItemId)
+	}
+
+	//insert table orders
+	orderId = uuid.New().String()
+	orderNumber := helper.GenerateRandomString(10)
+	strOrderItemIds := strings.Join(orderItemIds, ",")
+	queryInserOrder := `Insert into orders (id, order_number, table_number, order_item_ids, created_by, crated_at) values ('` + orderId + `', '` + orderNumber + `', ` + strconv.Itoa(tableNumber) + `,'` + strOrderItemIds + `', 'cashier', now() )`
+
+	_, err = r.db.ExecContext(ctx, queryInserOrder)
+
+	if err != nil {
+		return "", err
 	}
 
 	return orderId, nil
