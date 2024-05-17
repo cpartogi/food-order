@@ -34,5 +34,5 @@ func (h *FoodHandler) AddOrder(c echo.Context) error {
 		return utils.ErrorResponse(c, err, map[string]interface{}{})
 	}
 
-	return utils.SuccessResponse(c, constant.SuccessGetData, orderId)
+	return utils.SuccessResponse(c, constant.SuccessAddData, orderId)
 }
