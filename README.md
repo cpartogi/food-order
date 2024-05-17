@@ -28,3 +28,15 @@ migrate -path migrations -database "postgresql://username:password@host:port/dat
 make run
 ```
 2. API url example : [GET] localhost:10001/food/menus 
+3. API for Create order example : [POST] localhost:10001/food/order/1 ,  1 is table number
+### Example
+```http
+{
+  "orders": [
+    {
+      "menuId": "8b81b79b-acfb-4955-8546-0770378734e6",
+      "amount": 1
+    }
+  ]
+}      
+```
