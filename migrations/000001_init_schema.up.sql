@@ -39,7 +39,3 @@ create table order_items (
 	created_at timestamptz NOT NULL,
     CONSTRAINT order_items PRIMARY KEY (id)
 );
-
-ALTER TABLE "user_logs" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
-
-ALTER TABLE "user_tokens" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
