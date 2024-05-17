@@ -2,6 +2,9 @@ package init
 
 import (
 	"fmt"
+	"os"
+
+	"food-order/lib/db"
 
 	"github.com/go-pg/pg"
 	"github.com/spf13/viper"
@@ -21,4 +24,22 @@ func ConnectToPgServer() (*pg.DB, error) {
 		return nil, err
 	}
 	return db, err
+}
+
+func ConnectToPGServerRead() (*db.PgDB, error) {
+
+	dbpg, err := db.CreatePGConnection(map[string]string{
+		"host":     viper.GetString(`database.postgres.host`),
+		"port":     viper.GetString(`database.postgres.port`),
+		"user":     viper.GetString(`database.postgres.user`),
+		"password": viper.GetString(`database.postgres.password`),
+		"dbname":   viper.GetString(`database.postgres.dbname`),
+		"sslmode":  viper.GetString(`database.postgres.sslmode`),
+	})
+
+	if err != nil {
+		os.Exit(1)
+	}
+
+	return dbpg, err
 }

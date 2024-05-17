@@ -6,5 +6,6 @@ import (
 )
 
 type FoodRepoInterface interface {
-	GetMenus(ctx context.Context, menuTypeId string) (res []model.Menus, err error)
+	GetMenus(ctx context.Context) (res []model.Menus, err error)
+	AddOrders(ctx context.Context, tableNumber int, req []model.AddOrders) (orderId string, err error)
 }

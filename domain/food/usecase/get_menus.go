@@ -5,9 +5,9 @@ import (
 	"food-order/domain/food/model"
 )
 
-func (u *FoodUsecase) GetMenus(ctx context.Context, menuTypeId string) (res []model.Menus, err error) {
+func (u *FoodUsecase) GetMenus(ctx context.Context) (res []model.Menus, err error) {
 
-	res, err = u.foodRepo.GetMenus(ctx, menuTypeId)
+	res, err = u.foodRepo.GetMenus(ctx)
 
 	if err != nil {
 		return

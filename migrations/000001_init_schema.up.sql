@@ -5,7 +5,7 @@ CREATE TABLE menu_types (
 	created_at timestamptz NOT NULL,
 	updated_by varchar(255) NULL,
 	updated_at timestamptz NULL,
-	CONSTRAINT menu_types PRIMARY KEY (id)
+	CONSTRAINT menu_types_pkey PRIMARY KEY (id)
 );
 
 CREATE TABLE menus (
@@ -18,17 +18,17 @@ CREATE TABLE menus (
 	created_at timestamptz NOT NULL,
 	updated_by varchar(255) NULL,
 	updated_at timestamptz NULL,
-    CONSTRAINT menus PRIMARY KEY (id)
+    CONSTRAINT menus_pkey PRIMARY KEY (id)
 );
 
 create table orders (
 	id uuid NOT NULL,
     order_number varchar(50),
     table_number int4 NOT NULL, 
-    order_item_id uuid NOT NULL,
+    order_item_ids varchar(2000) NULL,
     created_by varchar(255) NOT NULL,
 	created_at timestamptz NOT NULL,
-    CONSTRAINT orders PRIMARY KEY (id)
+    CONSTRAINT orders_pkey PRIMARY KEY (id)
 );
 
 create table order_items (
@@ -37,5 +37,5 @@ create table order_items (
     amount int4 NOT NULL,
     created_by varchar(255) NOT NULL,
 	created_at timestamptz NOT NULL,
-    CONSTRAINT order_items PRIMARY KEY (id)
+    CONSTRAINT order_items_pkey PRIMARY KEY (id)
 );

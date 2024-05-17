@@ -7,3 +7,8 @@ type Menus struct {
 	MenuDescription string
 	MenuPrice       int
 }
+
+type AddOrders struct {
+	MenuId string
+	Amount int
+}

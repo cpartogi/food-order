@@ -5,32 +5,32 @@ import (
 	"database/sql"
 	"food-order/domain/food"
 	"food-order/domain/food/model"
+
+	"github.com/google/uuid"
 )
 
 type FoodRepo struct {
 	db *sql.DB
 }
 
-func NewAuthRepo(db *sql.DB) food.FoodRepoInterface {
+func NewFoodRepo(db *sql.DB) food.FoodRepoInterface {
 	return &FoodRepo{
 		db: db,
 	}
 }
 
-func (r *FoodRepo) GetMenus(ctx context.Context, menuTypeId string) (res []model.Menus, err error) {
+func (r *FoodRepo) GetMenus(ctx context.Context) (res []model.Menus, err error) {
 
-	q := `SELECT a.id, a.menu_name, a.menu_description, a.menu_price, b.menu_type_name FROM menus a, menu_types b WHERE a.menu_type_id = b.id AND b.id = $1 `
+	q := `SELECT a.id, a.menu_name, a.menu_description, a.menu_price, b.menu_type_name FROM menus a, menu_types b WHERE a.menu_type_id = b.id ORDER BY b.menu_type_name `
 
 	var rows *sql.Rows
-
-	defer rows.Close()
-
-	rows, err = r.db.QueryContext(ctx, q, menuTypeId)
+	rows, err = r.db.QueryContext(ctx, q)
 
 	if err != nil {
 		return
 	}
 
+	defer rows.Close()
 	for rows.Next() {
 		var menuData model.Menus
 		err = rows.Scan(&menuData.Id, &menuData.MenuName, &menuData.MenuDescription, &menuData.MenuPrice, &menuData.MenuTypeName)
@@ -42,5 +42,21 @@ func (r *FoodRepo) GetMenus(ctx context.Context, menuTypeId string) (res []model
 		res = append(res, menuData)
 	}
 
-	return
+	return res, nil
+}
+
+func (r *FoodRepo) AddOrders(ctx context.Context, tableNumber int, req []model.AddOrders) (orderId string, err error) {
+
+	for _, ord := range req {
+		orderItemId := uuid.New().String()
+		query := `INSERT into order_items (id, menu_id, amount, created_by, created_at) values ('` + orderItemId + `' ,'` + ord.MenuId + `', ` + ord.Amount + ` ,'cashier', now())`
+
+		_, err := r.db.ExecContext(ctx, query)
+
+		if err != nil {
+			return "", err
+		}
+	}
+
+	return orderId, nil
 }

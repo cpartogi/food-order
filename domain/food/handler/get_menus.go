@@ -12,9 +12,8 @@ import (
 func (h *FoodHandler) GetMenus(c echo.Context) error {
 	ctx := c.Request().Context()
 
-	menuTypeId := c.QueryParam("menuTypeId")
+	menus, err := h.foodUsecase.GetMenus(ctx)
 
-	menus, err := h.foodUsecase.GetMenus(ctx, menuTypeId)
 	if err != nil {
 		return utils.ErrorResponse(c, err, map[string]interface{}{})
 	}

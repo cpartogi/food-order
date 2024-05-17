@@ -6,5 +6,5 @@ import (
 )
 
 type FoodUsecaseInterface interface {
-	GetMenus(ctx context.Context, menuTypeId string) (res []model.Menus, err error)
+	GetMenus(ctx context.Context) (res []model.Menus, err error)
 }
