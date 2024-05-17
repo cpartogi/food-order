@@ -23,18 +23,18 @@ CREATE TABLE menus (
 
 create table orders (
 	id uuid NOT NULL,
-    order_number varchar(50), 
+    order_number varchar(50),
+    table_number int4 NOT NULL, 
     order_item_id uuid NOT NULL,
     created_by varchar(255) NOT NULL,
 	created_at timestamptz NOT NULL,
     CONSTRAINT orders PRIMARY KEY (id)
 );
 
-
 create table order_items (
 	id uuid NOT NULL,
     menu_id uuid NOT NULL,
-    amount int4 NULL,
+    amount int4 NOT NULL,
     created_by varchar(255) NOT NULL,
 	created_at timestamptz NOT NULL,
     CONSTRAINT order_items PRIMARY KEY (id)
